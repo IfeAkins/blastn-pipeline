@@ -1,0 +1,9 @@
+sample_id	query_seq_id	subject_seq_id	score	query_cov	seq_ident	query_len	subject_len	aln_len
+Zagreb001-IncHI2	contig_6	MK070339.1	1620	1	100.000	276609	1620	1620
+Zagreb003-IncHI2	contig_2	MK070339.1	1620	1	100.000	276608	1620	1620
+Zagreb004-IncHI2	contig_13	MK070339.1	1620	1	100.000	276612	1620	1620
+Zagreb005-IncHI2	contig_2	MK070339.1	1620	1	100.000	284824	1620	1620
+Zagreb006-IncL	0	MK070339.1	0	0	0	0	1620	0
+Zagreb007-IncL	0	MK070339.1	0	0	0	0	1620	0
+Zagreb009-IncL	0	MK070339.1	0	0	0	0	1620	0
+Zagreb037-IncHI2	contig_8	MK070339.1	1617	1	99.938	277923	1620	1621
