@@ -1,15 +1,7 @@
 #!/bin/bash
 # ============================================
 # BLASTn Pipeline
-# Author: Dr. Ifeoluwa Akintayo
-#
-# Description: Automated BLASTn similarity
-# search against a custom nucleotide database
-# with result summarization
-#
-# Reference: Camacho et al. (2009) BLAST+
-# BMC Bioinformatics 10:421
-# https://doi.org/10.1186/1471-2105-10-421
+# Author: Ifeoluwa Akintayo
 #
 # Directory structure required:
 # blastn-pipeline/
