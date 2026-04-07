@@ -45,6 +45,7 @@ IDENTITY_THRESHOLD=90   # adjust as needed
 ```
 
 ### Step 3 — Run pipeline
+download the script
 ```bash
 chmod +x blastn_pipeline.sh
 bash blastn_pipeline.sh
