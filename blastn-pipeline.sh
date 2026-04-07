@@ -1,29 +1,25 @@
 #!/bin/bash
 # ============================================
 # BLASTn Pipeline
-# 
-# 
-# Description: Automated BLASTn similarity 
-# search against a custom nucleotide database
-# with result summarization
-#
-# Reference: Camacho et al. (2009) BLAST+
-# BMC Bioinformatics 10:421
-# https://doi.org/10.1186/1471-2105-10-421
 # ============================================
+# CONFIGURATION
+# Edit these variables before running
+# ============================================
+REFERENCE_DIR="reference"                    # reference folder
+REFERENCE_FASTA="reference/*.fasta"          # reference file
+DATABASE_NAME="reference/blast_db"           # database location, rename if necessary
+FASTA_DIR="fasta"                            # query fasta folder
+RESULTS_DIR="results"                        # results folder
 
 # ============================================
 # STEP 1: Create BLAST database
 # ============================================
-# Replace <reference_gene.fasta> with your file
-# Replace <database_name> with your chosen name
-
 echo "Step 1: Creating BLAST database..."
 
 makeblastdb \
-    -in <reference_gene.fasta> \
+    -in ${REFERENCE_FASTA} \
     -dbtype nucl \
-    -out <database_name>
+    -out ${DATABASE_NAME}
 
 echo "Database created successfully!"
 
@@ -32,26 +28,20 @@ echo "Database created successfully!"
 # ============================================
 echo "Step 2: Listing query FASTA files..."
 
-ls *.fasta > samples.txt
+ls ${FASTA_DIR}/*.fasta > samples.txt
 
 echo "Found $(wc -l < samples.txt) samples to process"
 
 # ============================================
 # STEP 3: Run BLASTn for each sample
 # ============================================
-# -query        : query sequence file
-# -db           : database from step 1
-# -out          : output file per sample
-# -outfmt 6     : tabular TSV format
-# -perc_identity: minimum % identity threshold
-
 echo "Step 3: Running BLASTn for each sample..."
 
 for fasta in $(cat samples.txt); do
     echo "  Processing: ${fasta}"
     blastn \
         -query ${fasta} \
-        -db <database_name> \
+        -db ${DATABASE_NAME} \
         -out ${fasta}.txt \
         -outfmt "6 qseqid sseqid score qcovs pident" \
         -perc_identity 90
@@ -64,22 +54,14 @@ echo "BLASTn complete!"
 # ============================================
 echo "Step 4: Organizing results..."
 
-mkdir -p results/
-mv *.fasta.txt results/
+mkdir -p ${RESULTS_DIR}/
+mv ${FASTA_DIR}/*.fasta.txt ${RESULTS_DIR}/
 
-echo "Results moved to results/ folder"
+echo "Results moved to ${RESULTS_DIR}/ folder"
 
 # ============================================
 # STEP 5: Create summary header
 # ============================================
-# Column descriptions:
-# id             = sample name
-# query_seq_id   = query sequence ID
-# subject_seq_id = database sequence ID
-# score          = alignment score
-# query_cov      = query coverage (%)
-# seq_ident      = sequence identity (%)
-
 echo "Step 5: Creating summary file..."
 
 echo "id query_seq_id subject_seq_id score query_cov seq_ident" \
@@ -90,11 +72,8 @@ echo "id query_seq_id subject_seq_id score query_cov seq_ident" \
 # ============================================
 echo "Step 6: Combining results..."
 
-for file in $(ls results/*.txt); do
-    # extract sample name (remove .fasta.txt)
+for file in $(ls ${RESULTS_DIR}/*.txt); do
     sample=$(basename ${file%.fasta.txt})
-    
-    # append sample name + results to summary
     echo "$(echo $sample) $(cat $file)" \
         >> blast_results_summary.tsv
 done
