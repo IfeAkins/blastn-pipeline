@@ -80,6 +80,14 @@ df_filtered = df[
 print(df_filtered)
 ```
 
+## References
+
+- Camacho C et al. (2009) BLAST+: architecture and applications. 
+  *BMC Bioinformatics* 10:421
+  https://doi.org/10.1186/1471-2105-10-421
+
+- NCBI BLAST+ Command Line Manual:
+  https://www.ncbi.nlm.nih.gov/books/NBK153387/
 
 ## License
 MIT License
