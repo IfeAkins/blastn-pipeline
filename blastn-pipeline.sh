@@ -43,7 +43,7 @@ for fasta in $(cat samples.txt); do
         -query ${fasta} \
         -db ${DATABASE_NAME} \
         -out ${fasta}.txt \
-        -outfmt "6 qseqid sseqid score qcovs pident" \
+        -outfmt "6 qseqid sseqid score qcovs pident qlen slen length" \
         -perc_identity 90
 done
 
@@ -64,7 +64,7 @@ echo "Results moved to ${RESULTS_DIR}/ folder"
 # ============================================
 echo "Step 5: Creating summary file..."
 
-echo "id query_seq_id subject_seq_id score query_cov seq_ident" \
+echo -e "sample_id\tquery_seq_id\tsubject_seq_id\tscore\tquery_cov\tseq_ident\tquery_len\tsubject_len\taln_len" \
     > blast_results_summary.tsv
 
 # ============================================
@@ -74,8 +74,10 @@ echo "Step 6: Combining results..."
 
 for file in $(ls ${RESULTS_DIR}/*.txt); do
     sample=$(basename ${file%.fasta.txt})
-    echo "$(echo $sample) $(cat $file)" \
-        >> blast_results_summary.tsv
+    
+    while IFS= read -r line; do
+        echo -e "${sample}\t${line}" >> blast_results_summary.tsv
+    done < ${file}
 done
 
 echo "============================================"
