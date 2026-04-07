@@ -1,8 +1,7 @@
 # BLASTn Pipeline
 A bash pipeline for running BLASTn 
 sequence similarity searches against a custom 
-nucleotide database, with automated result 
-summarization.
+nucleotide database.
 
 ## What it does
 - Creates a custom BLAST nucleotide database
