@@ -9,10 +9,8 @@ SUMMARY_FILE="blast_results_summary.tsv"
 IDENTITY_THRESHOLD=90
 
 echo "BLASTn Pipeline"
-echo "Author: Dr. Ifeoluwa Akintayo"
 
 # STEP 1: Create BLAST database
-echo ""
 echo "Step 1: Creating BLAST database..."
 
 makeblastdb \
@@ -24,7 +22,6 @@ echo "Database created: ${DATABASE_NAME}"
 
 # STEP 2: Create results directory
 mkdir -p ${RESULTS_DIR}
-echo ""
 echo "Step 2: Results folder ready: ${RESULTS_DIR}/"
 
 # STEP 3: Run BLASTn for each sample
@@ -43,11 +40,9 @@ for fasta in ${FASTA_DIR}/*.fasta; do
         -perc_identity ${IDENTITY_THRESHOLD}
 done
 
-echo ""
 echo "BLASTn complete!"
 
 # STEP 4: Create summary header
-echo ""
 echo "Step 4: Creating summary file..."
 
 echo -e "sample_id\tquery_seq_id\tsubject_seq_id\tscore\tquery_cov\tseq_ident\tquery_len\tsubject_len\taln_len" \
@@ -71,7 +66,6 @@ for file in $(ls ${RESULTS_DIR}/*.txt); do
         echo -e "${sample}\t0\t${REF_NAME}\t0\t0\t0\t0\t${REF_LEN}\t0" >> ${SUMMARY_FILE}
     fi
 done
-
 
 echo "Pipeline complete!"
 echo "Results folder:  ${RESULTS_DIR}/"
