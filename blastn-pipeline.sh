@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# BLASTn Pipeline
-# Author: Ifeoluwa Akintayo
-
 REFERENCE_DIR="reference"
 REFERENCE_FASTA="reference/*.fasta"
 DATABASE_NAME="reference/blast_db"
@@ -25,18 +22,14 @@ makeblastdb \
 
 echo "Database created: ${DATABASE_NAME}"
 
-
 # STEP 2: Create results directory
-
 mkdir -p ${RESULTS_DIR}
 echo ""
 echo "Step 2: Results folder ready: ${RESULTS_DIR}/"
 
 # STEP 3: Run BLASTn for each sample
-
 echo "Step 3: Running BLASTn for each sample..."
 echo "Identity threshold: ${IDENTITY_THRESHOLD}%"
-
 
 for fasta in ${FASTA_DIR}/*.fasta; do
     sample=$(basename ${fasta%.fasta})
@@ -54,7 +47,6 @@ echo ""
 echo "BLASTn complete!"
 
 # STEP 4: Create summary header
-
 echo ""
 echo "Step 4: Creating summary file..."
 
@@ -62,7 +54,6 @@ echo -e "sample_id\tquery_seq_id\tsubject_seq_id\tscore\tquery_cov\tseq_ident\tq
     > ${SUMMARY_FILE}
 
 # STEP 5: Combine all results into summary
-
 echo "Step 5: Combining results..."
 
 # get reference name and length for no-hit rows
