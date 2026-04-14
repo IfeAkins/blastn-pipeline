@@ -1,20 +1,8 @@
 #!/bin/bash
-# ============================================
+
 # BLASTn Pipeline
 # Author: Ifeoluwa Akintayo
-#
-# Directory structure required:
-# blastn-pipeline/
-# ├── blastn_pipeline.sh
-# ├── reference/
-# │   └── your_reference.fasta
-# └── fasta/
-#     └── *.fasta
-# ============================================
 
-# ============================================
-# CONFIGURATION
-# ============================================
 REFERENCE_DIR="reference"
 REFERENCE_FASTA="reference/*.fasta"
 DATABASE_NAME="reference/blast_db"
@@ -23,14 +11,10 @@ RESULTS_DIR="results"
 SUMMARY_FILE="blast_results_summary.tsv"
 IDENTITY_THRESHOLD=90
 
-echo "============================================"
 echo "BLASTn Pipeline"
 echo "Author: Dr. Ifeoluwa Akintayo"
-echo "============================================"
 
-# ============================================
 # STEP 1: Create BLAST database
-# ============================================
 echo ""
 echo "Step 1: Creating BLAST database..."
 
@@ -41,20 +25,18 @@ makeblastdb \
 
 echo "Database created: ${DATABASE_NAME}"
 
-# ============================================
+
 # STEP 2: Create results directory
-# ============================================
+
 mkdir -p ${RESULTS_DIR}
 echo ""
 echo "Step 2: Results folder ready: ${RESULTS_DIR}/"
 
-# ============================================
 # STEP 3: Run BLASTn for each sample
-# ============================================
-echo ""
+
 echo "Step 3: Running BLASTn for each sample..."
 echo "Identity threshold: ${IDENTITY_THRESHOLD}%"
-echo ""
+
 
 for fasta in ${FASTA_DIR}/*.fasta; do
     sample=$(basename ${fasta%.fasta})
@@ -71,18 +53,16 @@ done
 echo ""
 echo "BLASTn complete!"
 
-# ============================================
 # STEP 4: Create summary header
-# ============================================
+
 echo ""
 echo "Step 4: Creating summary file..."
 
 echo -e "sample_id\tquery_seq_id\tsubject_seq_id\tscore\tquery_cov\tseq_ident\tquery_len\tsubject_len\taln_len" \
     > ${SUMMARY_FILE}
 
-# ============================================
 # STEP 5: Combine all results into summary
-# ============================================
+
 echo "Step 5: Combining results..."
 
 # get reference name and length for no-hit rows
@@ -101,9 +81,8 @@ for file in $(ls ${RESULTS_DIR}/*.txt); do
     fi
 done
 
-echo ""
-echo "============================================"
+
 echo "Pipeline complete!"
 echo "Results folder:  ${RESULTS_DIR}/"
 echo "Summary file:    ${SUMMARY_FILE}"
-echo "============================================"
+
